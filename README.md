@@ -41,7 +41,7 @@ Runs the app in the development mode.
 Runs the app in the production mode.
 
 
-## API's
+## API's  ( USED POSTMAN TO TEST ALL API'S)
 
 ### POST signp
 http://localhost:5000/api/signup
