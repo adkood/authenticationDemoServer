@@ -2,11 +2,11 @@
 
 # overview
 
-* Created Server using express on PORT 5000.
+### 1. Created Server using express on PORT 5000.
 
-* Connected with mongoDb using mongoose
+### 2. Connected with mongoDb using mongoose
 
-* implemented Logics
+### 3. Implemented Logics
     * Login
     * SignUp
     * Update Password
@@ -14,17 +14,20 @@
     * Get user by Id
     * Send token with httpOnly cookies
 
-* Implement deep error handling 
+### 4. Proper Error handling 
+    * Created my own Error Class (AppError) for molding errors
+    * Created Higher Order function to handle errors in async functions.
     * programming error vs operational errors
     * developement vs production error handling
     * handled Uncaught promises
 
-* Used Best practices for Scalability
+### 5. Used Best practices for Scalability
 
-* Used Environment variables.
+### 6. Used Environment variables.
 
 
-## Available Scripts
+
+# Available Scripts
 
 In the project directory, you can run:
 
