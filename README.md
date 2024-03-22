@@ -55,7 +55,7 @@ http://localhost:5000/api/login
 ### POST logout
 http://localhost:5000/api/logout
 
-### GET refreshToken
+### POST refreshToken
 http://localhost:5000/api/refresh
 
 
