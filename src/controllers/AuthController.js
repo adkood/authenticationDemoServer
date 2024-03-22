@@ -85,6 +85,21 @@ exports.login = catchAsync(async (req, res, next) => {
 
 })
 
+// Logout handler
+exports.logout = (req, res) => {
+    // Set a new cookie with an expired date to logout the user
+    res.cookie('jwt', 'loggedout', {
+        expires: new Date(Date.now() + 10 * 1000), // 10 seconds
+        httpOnly: true
+    });
+
+    res.status(200).json({
+        status: 'success',
+        message: 'User logged out successfully'
+    });
+};
+
+
 exports.protect = catchAsync(async (req, res, next) => {
 
     let token;
@@ -95,14 +110,12 @@ exports.protect = catchAsync(async (req, res, next) => {
         token = req.cookies.jwt;
     }
 
-    console.log(token);
     if (!token) {
         return next(new AppError(401, `you are not logged in! please login first`))
     }
 
     // token verification
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-    console.log(decoded);
 
     // check if user still exists
     const freshUser = await User.findById(decoded.id);
@@ -134,3 +147,49 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     // log user in, send jwt
     createSendToken(user, 200, res);
 });
+
+// refereshing token
+exports.refreshToken = async (req, res) => {
+    try {
+        console.log(req.cookies);
+        if (!req.cookies?.jwt) {
+            return res.status(401).json({
+                status: "fail",
+                message: "Cannot refresh the token, you need to login again!"
+            });
+        }
+
+        let token = req.cookies.jwt;
+        const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+        const user = await User.findById(decoded.id);
+        if (!user) {
+            return res.status(401).json({
+                status: "fail",
+                message: "This user associated with this token no longer exists!"
+            });
+        }
+
+        const newToken = signToken(decoded.id);
+        res.status(200).json({
+            status: "success",
+            token: newToken,
+            data: {
+                user
+            }
+        });
+    } catch (error) {
+        if (error.name === 'JsonWebTokenError') {
+            return res.status(401).json({
+                status: "fail",
+                message: "Invalid token or token expired!"
+            });
+        }
+        
+        console.error(error);
+        res.status(500).json({
+            status: "error",
+            message: "Internal server error"
+        });
+    }
+}

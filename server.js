@@ -8,10 +8,9 @@ const cors = require('cors');
 
 process.on('uncaughtException', err => {
     console.log('UNCAUGHT EXCEPTION!, Shutting down...');
-    console.log(err.name, err.message);    
+    console.log(err.name, err.message);
     process.exit(1);
 });
-
 
 dotenv.config();
 
@@ -24,14 +23,21 @@ const UserRouter = require('./src/routes/UserRoutes');
 const AppError = require('./src/utils/AppError');
 
 const app = express();
-app.use(cors());
+
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true
+};
+
+app.use(cors(corsOptions));
+
 db();
 
 
-app.use(express.json());
 app.use(cookieParser());
+app.use(express.json());
 
-app.use((req,res,next) => {
+app.use((req, res, next) => {
     // console.log(req.cookies);
     next();
 })
