@@ -52,6 +52,13 @@ http://localhost:5000/api/signup
 ### POST login
 http://localhost:5000/api/login
 
+### POST logout
+http://localhost:5000/api/logout
+
+### GET refreshToken
+http://localhost:5000/api/refresh
+
+
 ### GET get-all-users
 http://localhost:5000/api/users
 
