@@ -92,7 +92,8 @@ exports.logout = (req, res) => {
         expires: new Date(Date.now() + 10 * 1000), // 10 seconds
         httpOnly: true
     });
-
+    
+    console.log(req.cookies);
     res.status(200).json({
         status: 'success',
         message: 'User logged out successfully'
@@ -185,7 +186,7 @@ exports.refreshToken = async (req, res) => {
                 message: "Invalid token or token expired!"
             });
         }
-        
+
         console.error(error);
         res.status(500).json({
             status: "error",
