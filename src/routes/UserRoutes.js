@@ -6,7 +6,7 @@ const User = require('../models/UserModel');
 const Router = express.Router();
 
 Router.get('/users', AuthController.protect, UserController.getAllUsers);
-Router.get('/users/:id' , AuthController.protect, UserController.getUserById);
-Router.patch('/updatePassword', AuthController.protect , AuthController.updatePassword);
+Router.get('/users/:id', AuthController.protect, UserController.getUserById);
+Router.patch('/updatePassword', AuthController.protect, AuthController.updatePassword);
 
 module.exports = Router;
